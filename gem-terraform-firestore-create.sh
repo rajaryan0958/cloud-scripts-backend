@@ -17,19 +17,19 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = ""PROJECT_ID"-tf-state"
+    bucket = ""$PROJECT_ID"-tf-state"
     prefix = "terraform/state"
   }
 }
 
 provider "google" {
-  project = ""PROJECT_ID""
+  project = ""$PROJECT_ID""
   region  = ""REGION""
 }
 
 resource "google_firestore_database" "default" {
   name     = "default"
-  project  = ""PROJECT_ID""
+  project  = ""$PROJECT_ID""
   location_id = "nam5"
   type     = "FIRESTORE_NATIVE"
 }
@@ -44,13 +44,13 @@ cat > variables.tf <<EOF
 variable "project_id" {
   type        = string
   description = "The ID of the Google Cloud project."
-  default     = ""PROJECT_ID""
+  default     = ""$PROJECT_ID""
 }
 
 variable "bucket_name" {
   type        = string
   description = "Bucket name for terraform state"
-  default     = ""PROJECT_ID"-tf-state"
+  default     = ""$PROJECT_ID"-tf-state"
 }
 EOF
 
