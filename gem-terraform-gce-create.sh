@@ -47,11 +47,9 @@ resource "google_compute_instance" "default" {
 }
 EOF
 
-read -p "Enter Contents of Variables.tf File: " CONTENT
+echo "Enter the contents of variables.tf File: "
 
-cat > variables.tf <<EOF
-$CONTENT
-EOF
+nano variables.tf
 
 terraform init
 
