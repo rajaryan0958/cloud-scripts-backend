@@ -2,13 +2,6 @@ PROJECT_ID=$(gcloud config get-value project)
 
 gcloud config set project "$PROJECT_ID"
 
-read -p "Enter your Region (e.g., us-east1, us-west1, etc.): " REGION
-gcloud config set project "$REGION"
-
-read -p "Enter your Region (e.g., us-east1, us-west1, etc.): " ZONE
-gcloud config set project "ZONE"
-
-
 gsutil mb -l $REGION gs://$PROJECT_ID-tf-state
 
 gsutil versioning set on gs://$PROJECT_ID-tf-state
@@ -52,24 +45,10 @@ resource "google_compute_instance" "default" {
 }
 EOF
 
+read -p "Enter Contents of Variables.tf File: " CONTENT
+
 cat > variables.tf <<EOF
-variable "project_id" {
-  type        = string
-  description = "The ID of the Google Cloud project"
-  default = "$PROJECT_ID"
-}
-
-variable "region" {
-  type        = string
-  description = "The region to deploy resources in"
-  default     = "$REGION"
-}
-
-variable "zone" {
-  type        = string
-  description = "The zone to deploy resources in"
-  default     = "$ZONE"
-}
+$CONTENT
 EOF
 
 terraform init
