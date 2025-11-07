@@ -2,6 +2,8 @@ PROJECT_ID=$(gcloud config get-value project)
 
 gcloud config set project "$PROJECT_ID"
 
+read -p "Enter your Region (e.g., us-east1, us-west1, etc.): " REGION
+
 gsutil mb -l $REGION gs://$PROJECT_ID-tf-state
 
 gsutil versioning set on gs://$PROJECT_ID-tf-state
