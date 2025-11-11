@@ -91,3 +91,4 @@ docker push $REGION-docker.pkg.dev/$PROJECT_ID/traefik-repo/traefik-static-site:
 
 gcloud run deploy traefik-static-site --image $REGION-docker.pkg.dev/$PROJECT_ID/traefik-repo/traefik-static-site:latest --platform managed --allow-unauthenticated --port 8000
 
+echo "✅ OPEN THE ABOVE LINK TO GET FULL SCORE"
