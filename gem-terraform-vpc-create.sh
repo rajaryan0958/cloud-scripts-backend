@@ -23,14 +23,14 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = ""PROJECT_ID"-terraform-state"
+    bucket = "$PROJECT_ID-terraform-state"
     prefix = "terraform/state"
   }
 }
 
 provider "google" {
-  project = ""PROJECT_ID""
-  region  = ""REGION""
+  project = "$PROJECT_ID"
+  region  = "$REGION"
 }
 
 resource "google_compute_network" "vpc_network" {
@@ -41,7 +41,7 @@ resource "google_compute_network" "vpc_network" {
 resource "google_compute_subnetwork" "subnet_us" {
   name            = "subnet-us"
   ip_cidr_range   = "10.10.1.0/24"
-  region          = ""REGION""
+  region          = "$REGION"
   network         = google_compute_network.vpc_network.id
 }
 
@@ -70,13 +70,13 @@ cat > variables.tf <<EOF
 variable "project_id" {
   type        = string
   description = "The ID of the Google Cloud project"
-  default     = ""PROJECT_ID""
+  default     = "$PROJECT_ID"
 }
 
 variable "region" {
   type        = string
   description = "The region to deploy resources in"
-  default     = ""REGION""
+  default     = "$REGION"
 }
 EOF
 
