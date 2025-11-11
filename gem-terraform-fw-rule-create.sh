@@ -45,7 +45,7 @@ variable "bucket_name" {
 
 variable "region" {
   type = string
-  default = "$REGION""
+  default = "$REGION"
 }
 EOF
 
