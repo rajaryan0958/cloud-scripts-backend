@@ -26,19 +26,19 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = ""PROJECT_ID"-tf-state"
+    bucket = "$PROJECT_ID-tf-state"
     prefix = "terraform/state"
   }
 }
 
 provider "google" {
-  project = ""PROJECT_ID""
-  region  = ""REGION""
+  project = "$PROJECT_ID"
+  region  = "$REGION"
 }
 
 resource "google_storage_bucket" "default" {
-  name          = ""PROJECT_ID"-my-terraform-bucket"
-  location      = ""REGION""
+  name          = "$PROJECT_ID-my-terraform-bucket"
+  location      = "$REGION"
   force_destroy = true
 
   storage_class = "STANDARD"
