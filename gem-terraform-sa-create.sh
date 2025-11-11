@@ -6,9 +6,9 @@ read -p "Enter your Region (e.g., us-east1, us-west1, etc.): " REGION
 
 gcloud config set compute/region "$REGION"
 
-read -p "Enter your Region (e.g., us-east1-a, us-west1-b, etc.): " ZONE
+#read -p "Enter your Region (e.g., us-east1-a, us-west1-b, etc.): " ZONE
 
-gcloud config set compute/zone "$ZONE"
+#gcloud config set compute/zone "$ZONE"
 
 gcloud services enable iam.googleapis.com
 
