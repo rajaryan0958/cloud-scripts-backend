@@ -6,9 +6,9 @@ read -p "Enter your Region (e.g., us-east1, us-west1, etc.): " REGION
 
 gcloud config set compute/region "$REGION"
 
-read -p "Enter your Region (e.g., us-east1-a, us-west1-b, etc.): " ZONE
+#read -p "Enter your Region (e.g., us-east1-a, us-west1-b, etc.): " ZONE
 
-gcloud config set compute/zone "$ZONE"
+#gcloud config set compute/zone "$ZONE"
 
 gcloud storage buckets create gs://$PROJECT_ID-tf-state --project=$PROJECT_ID --location=$REGION --uniform-bucket-level-access
 
@@ -20,7 +20,7 @@ cat > firewall.tf <<EOF
 resource "google_compute_firewall" "allow_ssh" {
   name    = "allow-ssh-from-anywhere"
   network = "default"
-  project = ""PROJECT_ID""
+  project = "$PROJECT_ID"
 
   allow {
     protocol = "tcp"
@@ -35,17 +35,17 @@ EOF
 cat > variables.tf <<EOF
 variable "project_id" {
   type = string
-  default = ""PROJECT_ID""
+  default = "$PROJECT_ID"
 }
 
 variable "bucket_name" {
   type = string
-  default = ""PROJECT_ID"-tf-state"
+  default = "$PROJECT_ID-tf-state"
 }
 
 variable "region" {
   type = string
-  default = ""REGION""
+  default = "$REGION""
 }
 EOF
 
