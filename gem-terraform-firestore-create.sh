@@ -72,6 +72,4 @@ terraform plan
 
 terraform apply -auto-approve
 
-terraform destroy
-
 echo "🥳Your Lab is Completed."
