@@ -1,7 +1,6 @@
 gcloud services enable run.googleapis.com artifactregistry.googleapis.com cloudbuild.googleapis.com
 
-# Prompt user for Project ID
-read -p "Enter your Project ID: " PROJECT_ID
+PROJECT_ID=$(gcloud config get-value project)
 
 # Prompt user for Region
 read -p "Enter your Region (e.g., us-east1, us-west1, etc.): " REGION
@@ -9,12 +8,6 @@ read -p "Enter your Region (e.g., us-east1, us-west1, etc.): " REGION
 # Set gcloud configuration
 gcloud config set project "$PROJECT_ID"
 gcloud config set run/region "$REGION"
-
-
-# Display what was set
-echo "✅ Project ID automatically set to: $PROJECT_ID"
-echo "✅ Cloud Run region automatically set to: $REGION"
-
 
 gcloud artifacts repositories create traefik-repo --repository-format=docker --location=$REGION --description="Docker repository for static site images"
 
