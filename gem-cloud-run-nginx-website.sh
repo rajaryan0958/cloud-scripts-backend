@@ -1,0 +1,75 @@
+# Prompt user for Project ID
+read -p "Enter your Project ID: " PROJECT_ID
+
+# Prompt user for Region
+read -p "Enter your Region (e.g., us-east1, us-west1, etc.): " REGION
+
+# Set gcloud configuration
+gcloud config set project "$PROJECT_ID"
+gcloud config set run/region "$REGION"
+
+# Display what was set
+echo "✅ Project ID automatically set to: $PROJECT_ID"
+echo "✅ Cloud Run region automatically set to: $REGION"
+
+gcloud services enable run.googleapis.com artifactregistry.googleapis.com
+
+cat > index.html <<EOF
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Static Website</title>
+</head>
+<body>
+    <div>Welcome to My Static Website!</div>
+    <p>This website is served from Google Cloud Run using Nginx and Artifact Registry.</p>
+</body>
+</html>
+EOF
+
+cat > nginx.conf <<EOF
+events {}
+http {
+    server {
+        listen 8080;
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+
+        location / {
+            try_files \$uri \$uri/ =404;
+        }
+    }
+}
+EOF
+
+cat > Dockerfile <<EOF
+FROM nginx:latest
+
+COPY index.html /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
+EOF
+
+gcloud artifacts repositories create nginx-static-site \
+    --repository-format=docker \
+    --location=$REGION \
+    --description="Docker repository for static website"
+
+docker build -t nginx-static-site .
+
+docker tag nginx-static-site $REGION-docker.pkg.dev/$PROJECT_ID/nginx-static-site/nginx-static-site
+
+docker push $REGION-docker.pkg.dev/$PROJECT_ID/nginx-static-site/nginx-static-site
+
+gcloud run deploy nginx-static-site \
+    --image $REGION-docker.pkg.dev/$PROJECT_ID/nginx-static-site/nginx-static-site \
+    --platform managed \
+    --region $REGION \
+    --allow-unauthenticated
+
+gcloud run services describe nginx-static-site --platform managed --region $REGION --format='value(status.url)'
+
+echo "✅ Open the Above link to get full score"
