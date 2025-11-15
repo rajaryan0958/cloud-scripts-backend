@@ -71,7 +71,8 @@ cat > variables.tf <<EOF
 # ENTER THE CONTENTS OF variables.tf FILE
 # PRESS CTRL+X --> Y --> ENTER to EXIT.
 EOF
-#nano variables.tf
+
+nano variables.tf
 
 terraform init
 
