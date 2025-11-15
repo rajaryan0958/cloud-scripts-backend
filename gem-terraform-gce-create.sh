@@ -47,7 +47,31 @@ resource "google_compute_instance" "default" {
 }
 EOF
 
-nano variables.tf
+cat > variables.tf <<EOF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ENTER THE CONTENTS OF variables.tf FILE
+# PRESS CTRL+X --> Y --> ENTER to EXIT.
+EOF
+#nano variables.tf
 
 terraform init
 
